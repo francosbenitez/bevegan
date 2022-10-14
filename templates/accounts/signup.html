@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=<device-width>, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static '/accounts/signup-style.css' %}">
+    <title>Sing up - beVegan</title>
+</head>
+<body>
+<div class="container right-panel-active" id="container">
+	<div class="form-container sign-up-container">
+		<form action="/signup/" method="POST">
+      		{% csrf_token %}
+			<h1>Create Account</h1>
+			<div class="social-container">
+				<img class="social" src="{% static '/accounts/logovegan.png' %}">
+			</div> 
+			<input type="text" placeholder="Name" name="username" />
+			<input type="email" placeholder="Email" name="email" />
+			<input type="password" placeholder="Password" name="password" />
+      		<input type="password" placeholder="Confirm Password" name="confirm_password" />
+			<span class="error"> {{ error }} </span>
+			<button>Sign Up</button>
+		</form>
+	</div>
+	<div class="overlay-container overlay overlay-panel">
+				<h1>Welcome Back!</h1>
+				<p>To keep connected with us please login with your personal info</p>
+				<button class="ghost" id="signIn"><a href="/login/">Sign In</a></button>
+	</div>
+</div>
+</body>
+{% comment %} <script src="{% static '/tasks/script.js' %}"></script> {% endcomment %}
+</html>
