@@ -15,12 +15,12 @@
       		{% csrf_token %}
 			<span style="color:green;">
 				{% if message %}
-					{{	message }}
-				{% message %}
+					{{message}}
+				{% endif %}
 			</span>
 			<h1>Create Account</h1>
 			<div class="social-container">
-				<img class="social" src="{% static '/accounts/logovegan.png' %}">
+				<img class="social" src="{% static '/accounts/logovegan.png' %}" alt="">
 			</div>
 			{% comment %}
 			<input type="text" placeholder="Name" name="username" />
@@ -53,7 +53,7 @@
 	<div class="overlay-container overlay overlay-panel">
 				<h1>Welcome Back!</h1>
 				<p>To keep connected with us please login with your personal info</p>
-				<button class="ghost" id="signIn"><a href="/login/">Sign In</a></button>
+				<button class="ghost" id="signIn"><a href="{% url 'login' %}">Sign In</a></button>
 	</div>
 </div>
 </body>
