@@ -2,6 +2,9 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 
+from apps.accounts.forms import ContactoForm
+
+
 # Create your views here.
 def signup(request):
     if request.method == 'GET':
@@ -25,3 +28,25 @@ def signup(request):
 
 def login(request):
     return render(request, 'accounts/login.html')
+
+
+def signup_form(request):
+    message = None
+    if request.method == 'POST':
+        contacto_form = ContactoForm(request.POST)
+        if contacto_form.is_valid():
+            message = "Create account successfully"
+        else:
+            message = "Error"
+    else:
+        contacto_form = ContactoForm()
+
+    return render(
+        request,
+        'accounts/signup.html',
+        {
+            'title': "Sing up - beVegan",
+            'contacto_form': contacto_form,
+            'message': message
+        }
+    )
