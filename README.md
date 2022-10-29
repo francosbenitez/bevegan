@@ -8,3 +8,7 @@
 1. Activate virtual environment: `source venv/bin/activate`
 1. `pip install -r requirements.txt`
 1. `python manage.py runserver`
+
+## To Run Black
+
+1. `python -m black .`
