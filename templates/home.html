@@ -1,17 +1,13 @@
-<nav>
-    <li>
-        <a href="/">Home</a>
-    </li>
-    {% if user.is_authenticated %}
-    <li>
-        <a href="/accounts/logout">Logout</a>
-    </li>
+{% extends "./header.html" %}
+{% block contenido %}
+<div class='main_container'>
+    {% if username %}
+        <h1>Welcome ! </h1>
+        <p>{{ username }}</p>
     {% else %}
-    <li>
-        <a href="/accounts/login">Login</a>
-    </li>
-    <li>
-        <a href="/accounts/signup/">Sign up</a>
-    </li>
+        <p>To keep connected with us please <a href="login">login</a> with your personal info</p>
     {% endif %}
-</nav>
+</div>
+{% comment %} <p>{{ email }}</p>
+<p>{{ password }}</p> {% endcomment %}
+{% endblock %}
