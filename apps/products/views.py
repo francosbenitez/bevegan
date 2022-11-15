@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.http import HttpResponse, JsonResponse
@@ -6,7 +6,10 @@ import json
 from apps.accounts.forms import ContactoForm
 from django.contrib import messages
 from apps.products.models import Product
+from apps.products.models import Request
 from django.core import serializers
+
+from apps.products.forms import RequestForm
 
 
 # Create your views here.
@@ -72,3 +75,28 @@ def product_by_id(request, id_product):
     # return JsonResponse({"result": result})
     result = Product.objects.filter(pk=id_product).values()
     return JsonResponse({"result": list(result)})
+
+
+def form_request(request):
+    if request.method == 'POST':
+        # formulario = CategoriaForm(request.POST)
+        formulario = RequestForm(request.POST)
+        if formulario.is_valid():
+            formulario.save()
+            # nombre = formulario.cleaned_data["nombre"]
+            # nueva_categoria = Categoria(nombre=nombre)
+            # nueva_categoria.save()
+            return redirect('all_request')
+    else:
+        formulario = RequestForm()
+    return render(request, 'products/add_request.html', {
+        "formulario": formulario
+    })
+
+
+def all_request(request):
+    data = Request.objects.all()
+    #result.append(data)
+    return render(request, 'products/all_request.html',{
+        'requests': data
+    })
