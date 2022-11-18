@@ -13,9 +13,8 @@ body {
 	align-items: center;
 	flex-direction: column;
 	font-family: 'Inter', sans-serif;
-	height: 100vh;
 	width: 100%;
-	margin: -20px 0 50px;
+	/* margin: -20px 0 50px; */
 }
 
 h1 {
@@ -44,8 +43,6 @@ a {
 }
 button {
 	border-radius: 20px;
-	/* border: 1px solid #FF4B2B;
-	background-color: #FF4B2B; */
 	cursor: pointer;
 	border: 1px solid #0eb03f;
 	background-color: #0eb03f;
@@ -102,13 +99,9 @@ input:focus {
 	justify-content: center;
 	align-items: center;
 	background-color: #fff;
-	border-radius: 10px;
-  	box-shadow: 0 14px 28px rgba(0,0,0,0.25), 
-			0 10px 10px rgba(0,0,0,0.22);
 	overflow: hidden;
-	margin-top: 10%;
-	width: 80%;
-	max-width: 100%;
+	width: 100%;
+	height: 100%;
 }
 
 .form-container {
@@ -124,7 +117,9 @@ input:focus {
 	width: 100%;
 	z-index: 1;
 }
-
+.send_button {
+	margin-bottom: 20px;
+}
 .container.right-panel-active .sign-up-container {
 	opacity: 1;
 	z-index: 5;
