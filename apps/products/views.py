@@ -22,14 +22,20 @@ def read_json():
 
 
 def all_products(request):
-    if request.method == "GET":
-        # data = read_json()
-        # Cambiar el data por la llamada a la base de datos
-        data = Product.objects.all().values()
+    # if request.method == "GET":
+    #     # data = read_json()
+    #     # Cambiar el data por la llamada a la base de datos
+    #     data = Product.objects.all().values()
+    #
+    #     return JsonResponse({"result": list(data)})
+    # else:
+    #     return HttpResponse('All products')
 
-        return JsonResponse({"result": list(data)})
-    else:
-        return HttpResponse('All products')
+    data = Product.objects.all()
+    # result.append(data)
+    return render(request, 'products/all.html', {
+        'products': data
+    })
 
 
 def product_by_name(request, name):
@@ -38,9 +44,13 @@ def product_by_name(request, name):
     #     if key["name"] == name:
     #         result.append(key)
     #
-    data = Product.objects.filter(name=name).values()
-    #result.append(data)
-    return JsonResponse({"result": list(data)})
+    # data = Product.objects.filter(name=name).values()
+    # result.append(data)
+    # return JsonResponse({"result": list(data)})
+    data = Product.objects.filter(name=name)
+    return render(request, 'products/all.html', {
+        'products': data
+    })
 
 
 def product_by_category(request, category):
@@ -51,8 +61,12 @@ def product_by_category(request, category):
     #         result.append(key)
     # return JsonResponse({"result": result})
 
-    result = Product.objects.filter(category__name=category).values()
-    return JsonResponse({"result": list(result)})
+    # result = Product.objects.filter(category__name=category).values()
+    # return JsonResponse({"result": list(result)})
+    result = Product.objects.filter(category__name=category)
+    return render(request, 'products/all.html', {
+        'products': result
+    })
 
 
 def product_by_brand(request, brand):
@@ -62,8 +76,12 @@ def product_by_brand(request, brand):
     #     if key["brand"] == brand:
     #         result.append(key)
     # return JsonResponse({"result": result})
-    result = Product.objects.filter(brand__name=brand).values()
-    return JsonResponse({"result": list(result)})
+    # result = Product.objects.filter(brand__name=brand).values()
+    # return JsonResponse({"result": list(result)})
+    result = Product.objects.filter(brand__name=brand)
+    return render(request, 'products/all.html', {
+        'products': result
+    })
 
 
 def product_by_id(request, id_product):
@@ -73,8 +91,12 @@ def product_by_id(request, id_product):
     #     if key["id"] == id_product:
     #         result.append(key)
     # return JsonResponse({"result": result})
-    result = Product.objects.filter(pk=id_product).values()
-    return JsonResponse({"result": list(result)})
+    # result = Product.objects.filter(pk=id_product).values()
+    # return JsonResponse({"result": list(result)})
+    result = Product.objects.filter(pk=id_product)
+    return render(request, 'products/all.html', {
+        'products': result
+    })
 
 
 def form_request(request):
@@ -89,14 +111,14 @@ def form_request(request):
             return redirect('all_request')
     else:
         formulario = RequestForm()
-    return render(request, 'products/add_request.html', {
+    return render(request, 'products/requests/add_request.html', {
         "formulario": formulario
     })
 
 
 def all_request(request):
     data = Request.objects.all()
-    #result.append(data)
-    return render(request, 'products/all_request.html',{
+    # result.append(data)
+    return render(request, 'products/requests/all_request.html', {
         'requests': data
     })
