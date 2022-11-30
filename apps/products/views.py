@@ -8,6 +8,7 @@ from django.contrib import messages
 from apps.products.models import Product
 from apps.products.models import Request
 from django.core import serializers
+from django.db.models import Q
 
 from apps.products.forms import RequestForm, ProductForm
 
@@ -150,3 +151,18 @@ def all_request(request):
     data = Request.objects.all()
     # result.append(data)
     return render(request, "products/requests/all_request.html", {"requests": data})
+
+
+def search(request):
+    if request.method == "GET":
+        query = request.GET.get("search", "")
+
+        if query:
+            data = Product.objects.filter(
+                Q(name__icontains=query) | Q(description__icontains=query)
+            )
+            return render(request, "products/all.html", {"products": data})
+        else:
+            return render(request, "products/all.html", {"products": data})
+    else:
+        print("An error just ocurred!")

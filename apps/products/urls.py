@@ -21,4 +21,5 @@ urlpatterns = [
         views.add_product_by_request,
         name="add_product_by_request",
     ),
+    path("products/search/", views.search, name="search"),
 ]
