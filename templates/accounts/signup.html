@@ -11,7 +11,7 @@
 <body>
 <div class="container right-panel-active" id="container">
 	<div class="form-container sign-up-container">
-		<form novalidate action="{% url 'signup' %}" method="POST">
+		<form action="/accounts/" method="POST">
       		{% csrf_token %}
 			<span style="color:green;">
 				{% if message %}
@@ -22,32 +22,12 @@
 			<div class="social-container">
 				<img class="social" src="{% static '/accounts/logovegan.png' %}" alt="">
 			</div>
-			{% comment %}
 			<input type="text" placeholder="Name" name="username" />
 			<input type="email" placeholder="Email" name="email" />
 			<input type="password" placeholder="Password" name="password" />
       		<input type="password" placeholder="Confirm Password" name="confirm_password" />
 			<span class="error"> {{ error }} </span>
-			{% endcomment %}
-			<div class="row">
-				{% for campo in contacto_form %}
-					<div class="col-md-12">
-						<div class="md-form mb-0">
-							<label>{{ campo.label }}</label>
-							{{ campo }}
-						</div>
-					</div>
-					<div class="alert alert-danger" role="alert">
-						{% for error in campo.errors %}
-							<span style="color:red;">
-								{{ error }}
-							</span>
-						{% endfor %}
-					</div>
-				{% endfor %}
-
-			</div>
-			<button>Sign Up</button>
+			<button class="send_button">Sign Up</button>
 		</form>
 	</div>
 	<div class="overlay-container overlay overlay-panel">
