@@ -2,12 +2,11 @@
 {% block contenido %}
 <div class='main_container'>
     {% if username %}
-        <h1>Welcome ! </h1>
-        <p>{{ username }}</p>
+        <h1>Welcome ! </h1> 
+        <p>{{ user.name }} {{ user.last_name }}</p>
     {% else %}
         <p>To keep connected with us please <a href="login">login</a> with your personal info</p>
     {% endif %}
 </div>
-{% comment %} <p>{{ email }}</p>
-<p>{{ password }}</p> {% endcomment %}
+
 {% endblock %}

@@ -65,11 +65,20 @@ button:active {
 button:focus {
 	outline: none;
 }
-button.ghost {
+.ghost {
 	background-color: transparent;
 	border-color: #FFFFFF;
 }
-
+.ghost:hover {
+	background-color:#95d233; 
+	border-color: #000;
+}
+.ghost:hover a {
+	color: #333;
+}
+.ghost a {
+	color: #fff;
+}
 form {
 	background-color: #FFFFFF;
 	display: flex;

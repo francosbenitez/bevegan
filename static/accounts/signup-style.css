@@ -67,10 +67,14 @@ button:focus {
 	outline: none;
 }
 
-button.ghost {
+.ghost {
 	background-color: transparent;
 	border-color: #FFFFFF;
 }
+.ghost a {
+	color: #fff;
+}
+
 
 form {
 	background-color: #FFFFFF;
@@ -208,4 +212,27 @@ input:focus {
     display: flex;
     flex-direction: column;
   }
+  form {
+	margin: 5%;
+  }
+}
+
+/*form*/
+
+.field_div {
+	display: flex;
+	width: 100%;
+	flex-direction: row-reverse;
+	justify-content: space-evenly;
+	align-items: center;
+}
+form button {
+	margin-top: 5%;
+}
+.field_div label {
+	text-align: left;
+	width: 30%;
+}
+.field_div input {
+	width: 50%;
 }
