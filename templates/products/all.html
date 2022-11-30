@@ -11,7 +11,9 @@
     <title>Document</title>
 </head>
 <body>
+
 <div class="container">
+    <h1> ALL PRODUCTS </h1>
     <table class="table">
     <thead>
         <tr>
@@ -20,6 +22,7 @@
             <th>Description</th>
             <th>Category</th>
             <th>Brand</th>
+            <th>Image</th>
         </tr>
     </thead>
     <tbody>
@@ -30,6 +33,13 @@
                 <td>{{product.description}}</td>
                 <td>{{product.category}}</td>
                 <td>{{product.brand}}</td>
+                <th>
+                    {% if product.image.url != null %}
+                        <img src="{{product.image.url}}" alt="{{product.name}}" width="20%">
+                    {% else %}
+                        <img src="/media/images/product/generic-product.png" alt="image-generic" width="20%">
+                    {% endif %}
+                </th>
             </tr>
         {% endfor %}
 

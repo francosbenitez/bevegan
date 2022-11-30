@@ -12,6 +12,7 @@
 </head>
 <body>
 <div class="container">
+<h1> ALL PRODUCTS </h1>
     <table class="table">
     <thead>
         <tr>
@@ -21,22 +22,26 @@
             <th>Category</th>
             <th>Brand</th>
             <th>Date Creation</th>
+            <th>Image</th>
             <th>Actions</th>
         </tr>
     </thead>
     <tbody>
         {% for request in requests %}
+            {% if request.aggregate == False %}
             <tr>
                 <td>{{request.id}}</td>
                 <td>{{request.name}}</td>
                 <td>{{request.description}}</td>
                 <td>{{request.category}}</td>
                 <td>{{request.brand}}</td>
+                <td><img src="{{request.image.url}}" alt="{{request.name}}" width="20%"></td>
                 <td>{{ request.date_creation }}</td>
                 <td>
-                     <a href="#" title="Add as product" class="btn btn-success"><i class="fa-sharp fa-solid fa-plus"></i></a>
+                     <a href="{% url 'add_product_by_request' id_request=request.id %}" title="Add as product" class="btn btn-success"><i class="fa-sharp fa-solid fa-plus"></i></a>
                 </td>
             </tr>
+            {% endif %}
         {% endfor %}
 
     </tbody>
