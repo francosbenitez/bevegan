@@ -33,11 +33,19 @@ class Product(models.Model):
 
 class Request(models.Model):
     name = models.CharField(max_length=100, verbose_name="Name")
-    description = models.CharField(max_length=200, null=True, verbose_name="Description")
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, verbose_name="Category")
-    image = models.ImageField(upload_to="images/request/", null=True, verbose_name="product_image")
-    brand = models.ForeignKey(Brand, on_delete=models.CASCADE, null=True, verbose_name="Brand")
-    date_creation = models.DateField(verbose_name='Fecha de inicio', default=now)
+    description = models.CharField(
+        max_length=200, null=True, verbose_name="Description"
+    )
+    category = models.ForeignKey(
+        Category, on_delete=models.CASCADE, null=True, verbose_name="Category"
+    )
+    image = models.ImageField(
+        upload_to="images/request/", null=True, verbose_name="product_image"
+    )
+    brand = models.ForeignKey(
+        Brand, on_delete=models.CASCADE, null=True, verbose_name="Brand"
+    )
+    date_creation = models.DateField(verbose_name="Fecha de inicio", default=now)
     aggregate = models.BooleanField(verbose_name="aggregate product", default=False)
 
     def soft_delete(self):
