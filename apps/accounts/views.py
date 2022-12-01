@@ -23,6 +23,7 @@ def index(request):
 
 
 def signin(request):
+    # username: user_test password:test
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
