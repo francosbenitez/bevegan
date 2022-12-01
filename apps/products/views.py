@@ -8,16 +8,18 @@ from django.contrib import messages
 from apps.products.models import Product
 from apps.products.models import Request
 from django.core import serializers
+from django.db.models import Q
 
 from apps.products.forms import RequestForm, ProductForm
 
 
 # Create your views here.
 
+
 def read_json():
     # with open("MOCK_DATA.json") as f:
     #     data = json.load(f)
-    data = json.load(open('MOCK_DATA.json', encoding="utf8"))
+    data = json.load(open("MOCK_DATA.json", encoding="utf8"))
     return data
 
 
@@ -36,11 +38,9 @@ def all_products(request):
     # else:
     #     return HttpResponse('All products')
 
-    data = Product.objects.all().order_by('id')
+    data = Product.objects.all().order_by("id")
     # result.append(data)
-    return render(request, 'products/all.html', {
-        'products': data
-    })
+    return render(request, "products/all.html", {"products": data})
 
 
 def product_by_name(request, name):
@@ -53,9 +53,7 @@ def product_by_name(request, name):
     # result.append(data)
     # return JsonResponse({"result": list(data)})
     data = Product.objects.filter(name=name)
-    return render(request, 'products/all.html', {
-        'products': data
-    })
+    return render(request, "products/all.html", {"products": data})
 
 
 def product_by_category(request, category):
@@ -69,9 +67,7 @@ def product_by_category(request, category):
     # result = Product.objects.filter(category__name=category).values()
     # return JsonResponse({"result": list(result)})
     result = Product.objects.filter(category__name=category)
-    return render(request, 'products/all.html', {
-        'products': result
-    })
+    return render(request, "products/all.html", {"products": result})
 
 
 def product_by_brand(request, brand):
@@ -84,9 +80,7 @@ def product_by_brand(request, brand):
     # result = Product.objects.filter(brand__name=brand).values()
     # return JsonResponse({"result": list(result)})
     result = Product.objects.filter(brand__name=brand)
-    return render(request, 'products/all.html', {
-        'products': result
-    })
+    return render(request, "products/all.html", {"products": result})
 
 
 def product_by_id(request, id_product):
@@ -99,13 +93,11 @@ def product_by_id(request, id_product):
     # result = Product.objects.filter(pk=id_product).values()
     # return JsonResponse({"result": list(result)})
     result = Product.objects.filter(pk=id_product)
-    return render(request, 'products/all.html', {
-        'products': result
-    })
+    return render(request, "products/all.html", {"products": result})
 
 
 def form_product(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         # formulario = CategoriaForm(request.POST)
         formulario = ProductForm(request.POST, request.FILES)
         if formulario.is_valid():
@@ -113,21 +105,24 @@ def form_product(request):
             # nombre = formulario.cleaned_data["nombre"]
             # nueva_categoria = Categoria(nombre=nombre)
             # nueva_categoria.save()
-            return redirect('all_products')
+            return redirect("all_products")
     else:
         formulario = RequestForm()
-    return render(request, 'products/add.html', {
-        "formulario": formulario
-    })
+    return render(request, "products/add.html", {"formulario": formulario})
 
 
 def add_product_by_request(request, id_request):
     result = Request.objects.get(pk=id_request)
-    product = Product(name=result.name, description=result.description, image=result.image,
-                      category=result.category, brand=result.brand)
+    product = Product(
+        name=result.name,
+        description=result.description,
+        image=result.image,
+        category=result.category,
+        brand=result.brand,
+    )
     result.soft_delete()
     product.save()
-    return redirect('all_products')
+    return redirect("all_products")
 
 
 """
@@ -136,7 +131,7 @@ def add_product_by_request(request, id_request):
 
 
 def form_request(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         # formulario = CategoriaForm(request.POST)
         formulario = RequestForm(request.POST, request.FILES)
         if formulario.is_valid():
@@ -144,17 +139,30 @@ def form_request(request):
             # nombre = formulario.cleaned_data["nombre"]
             # nueva_categoria = Categoria(nombre=nombre)
             # nueva_categoria.save()
-            return redirect('all_request')
+            return redirect("all_request")
     else:
         formulario = RequestForm()
-    return render(request, 'products/requests/add_request.html', {
-        "formulario": formulario
-    })
+    return render(
+        request, "products/requests/add_request.html", {"formulario": formulario}
+    )
 
 
 def all_request(request):
     data = Request.objects.all()
     # result.append(data)
-    return render(request, 'products/requests/all_request.html', {
-        'requests': data
-    })
+    return render(request, "products/requests/all_request.html", {"requests": data})
+
+
+def search(request):
+    if request.method == "GET":
+        query = request.GET.get("search", "")
+
+        if query:
+            data = Product.objects.filter(
+                Q(name__icontains=query) | Q(description__icontains=query)
+            )
+            return render(request, "products/all.html", {"products": data})
+        else:
+            return render(request, "products/all.html", {"products": data})
+    else:
+        print("An error just ocurred!")
