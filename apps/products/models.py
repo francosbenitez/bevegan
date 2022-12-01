@@ -3,6 +3,7 @@ import datetime
 from django.db import models
 from django.utils.timezone import now
 
+
 # Create your models here.
 
 
@@ -29,13 +30,28 @@ class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE)
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE)
 
-    def __str__(self):
-        return self.name
-
 
 class Request(models.Model):
     name = models.CharField(max_length=100, verbose_name="Name")
-    description = models.CharField(max_length=200, null=True, verbose_name="Description")
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, null=True, verbose_name="Category")
-    brand = models.ForeignKey(Brand, on_delete=models.CASCADE, null=True, verbose_name="Brand")
-    date_creation = models.DateField(verbose_name='Fecha de inicio', default=now)
+    description = models.CharField(
+        max_length=200, null=True, verbose_name="Description"
+    )
+    category = models.ForeignKey(
+        Category, on_delete=models.CASCADE, null=True, verbose_name="Category"
+    )
+    image = models.ImageField(
+        upload_to="images/request/", null=True, verbose_name="product_image"
+    )
+    brand = models.ForeignKey(
+        Brand, on_delete=models.CASCADE, null=True, verbose_name="Brand"
+    )
+    date_creation = models.DateField(verbose_name="Fecha de inicio", default=now)
+    aggregate = models.BooleanField(verbose_name="aggregate product", default=False)
+
+    def soft_delete(self):
+        self.aggregate = True
+        super().save()
+
+    # def delete(self, using=None, keep_parents=False):
+    #     self.image.storage.delete(self.image.name)
+    #     super().delete()

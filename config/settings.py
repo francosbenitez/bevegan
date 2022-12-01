@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "apps.products",
-    "apps.accounts"
+    "apps.accounts",
 ]
 
 MIDDLEWARE = [
@@ -62,7 +62,7 @@ ROOT_URLCONF = "config.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / 'templates'],
+        "DIRS": [BASE_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -82,13 +82,13 @@ WSGI_APPLICATION = "config.wsgi.application"
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'bevegan',
-        'USER': 'postgres',
-        'PASSWORD': 'apadmin',
-        'HOST': '127.0.0.1',
-        'PORT': '5432',
+    "default": {
+        "ENGINE": "django.db.backends.postgresql_psycopg2",
+        "NAME": "bevegan",
+        "USER": "postgres",
+        "PASSWORD": "apadmin",
+        "HOST": "127.0.0.1",
+        "PORT": "5432",
     }
 }
 
@@ -132,6 +132,17 @@ STATIC_URL = "/static/"
 STATICFILES_DIRS = [
     BASE_DIR / "static/",
 ]
+
+# Esto se genera en produccion y es la que deberemos
+# crear y django ira a buscar ahi
+# python manage.py collecstatic
+STATIC_ROOT = BASE_DIR / "static_root"
+
+# Media para debug
+MEDIA_URL = "/media/"
+
+# Media para produccion
+MEDIA_ROOT = os.path.join(BASE_DIR, "media/")
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
