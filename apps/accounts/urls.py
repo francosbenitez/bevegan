@@ -10,5 +10,4 @@ urlpatterns = [
     path('logout/', views.signout, name="logout"),
     path('register/', views.register, name='register'),
     path('succes/', views.succes_register, name='succes')
-
 ]

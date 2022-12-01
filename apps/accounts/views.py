@@ -13,11 +13,9 @@ from django.urls import reverse_lazy
 
 def index(request):
     if request.user.is_authenticated:
-        print("User is logged in :)")
         print(f"Username --> {request.user.username}")
         username = request.user.username
     else:
-        print("User is not logged in :(")
         return render(request, 'home.html')
     return render(request, 'home.html', {
         'username': username
