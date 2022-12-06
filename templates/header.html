@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <link rel="stylesheet" href="{% static '/accounts/login-style.css' %}">
+    <link rel="stylesheet" href="{% static 'base.css' %}">
+    <title>Login - beVegan</title>
+</head>
+<body>  
+    <nav class="nav_container">
+        <ul class="nav_list">
+            <li class="nav_item" >
+                <a href="/">Home</a>
+            </li>
+            {% if user.is_authenticated %}
+            <li class="nav_item" >
+                <a href="/accounts/logout">Logout</a>
+            </li>
+            {% else %}
+            <li class="nav_item" >
+                <a href="/accounts/login">Login</a>
+            </li>
+            <li class="nav_item" >
+                <a href="/accounts/register/">Sign up</a>
+            </li>
+            {% endif %}
+        </ul>
+        <div class="user_name">
+            {% if user.is_authenticated %}
+            <p>{{ username }} <span>(connected)</span> </p>
+            {% endif %}
+            <div class="img_container">
+                <img class="img" src="{% static '/accounts/logovegan.png' %}">
+            </div>
+        </div>
+    </nav>
+    <main>
+        {% block contenido %}{% endblock contenido%}
+    </main>
+    {% include 'footer.html' %}
+    

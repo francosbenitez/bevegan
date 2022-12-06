@@ -11,23 +11,36 @@
 <body>
 <div class="container right-panel-active" id="container">
 	<div class="form-container sign-up-container">
-		<form action="/accounts/" method="POST">
-      		{% csrf_token %}
-			<span style="color:green;">
-				{% if message %}
-					{{message}}
-				{% endif %}
-			</span>
-			<h1>Create Account</h1>
+		<form class="register_form" method="post" action={% url 'register' %}>
+			{% csrf_token %}
+			<h1>Register</h1>
 			<div class="social-container">
-				<img class="social" src="{% static '/accounts/logovegan.png' %}" alt="">
+                <img class="social" src="{% static '/accounts/logovegan.png' %}">
 			</div>
-			<input type="text" placeholder="Name" name="username" />
-			<input type="email" placeholder="Email" name="email" />
-			<input type="password" placeholder="Password" name="password" />
-      		<input type="password" placeholder="Confirm Password" name="confirm_password" />
-			<span class="error"> {{ error }} </span>
-			<button class="send_button">Sign Up</button>
+			<div class="d-flex flex-column pb-3">
+			{% comment %} <img class="img-fluid mx-auto d-block" src="{% static 'codingwithmitch/logo_250_250_transparent.png' %}" alt="codingwithmitch logo" width="72" height="72"> {% endcomment %}
+			</div>
+			{% comment %} {{ registration_form }} {% endcomment %}
+			{% for field in registration_form %}
+			<div class="field_div">{{field}} <label for="{{field.label}}">{{field.label}}</label></div>
+			{% endfor %}
+			
+			{% for error in field.errors %}
+			<p style="color: red">{{ error }}</p>
+			{% endfor %}
+			{% if registration_form.non_field_errors %}
+				<div style="color: red">
+					<p>{{registration_form.non_field_errors}}</p>
+				</div>
+			{% endif %}
+			{% if error %}
+				{{ form }}
+				<div style="color: red">
+					<p>{{ error }}</p>
+				</div>
+			{% endif %}
+			<button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
+	
 		</form>
 	</div>
 	<div class="overlay-container overlay overlay-panel">
@@ -37,5 +50,4 @@
 	</div>
 </div>
 </body>
-{% comment %} <script src="{% static '/tasks/script.js' %}"></script> {% endcomment %}
 </html>

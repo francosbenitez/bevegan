@@ -3,7 +3,6 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.http import HttpResponse, JsonResponse
 import json
-from apps.accounts.forms import ContactoForm
 from django.contrib import messages
 from apps.products.models import Product
 from apps.products.models import Request

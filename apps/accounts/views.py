@@ -1,67 +1,82 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from django.contrib.auth.models import User
-from apps.accounts.forms import ContactoForm
+# from apps.accounts.forms import ContactoForm
 from django.contrib import messages
+from django.contrib.auth import login, logout, authenticate
+from django.views.generic import CreateView
+from .forms import registerUser
+from apps.accounts.models import Account, UserManager
+from django.urls import reverse_lazy
+
+# Create your view-s here.
 
 
-# Create your views here.
-def signup(request):
-    if request.method == "GET":
-        return render(request, "accounts/signup.html")
+def index(request):
+    if request.user.is_authenticated:
+        print(f"Username --> {request.user.username}")
+        username = request.user.username
     else:
-        if request.POST["password"] == request.POST["confirm_password"]:
-            try:
-                # registrer user
-                user = User.objects.create_user(
-                    username=request.POST["username"], password=request.POST["password"]
-                )
-                user.save()
-                return HttpResponse("User created succesfully")
-            except:
-                return render(
-                    request,
-                    "accounts/signup.html",
-                    {"error": "Username already exists"},
-                )
-        else:
-            return render(
-                request, "accounts/signup.html", {"error": "Password do not match"}
-            )
+        return render(request, 'home.html')
+    return render(request, 'home.html', {
+        'username': username
+    })
 
 
-def login(request):
-
-    if request.method == "POST":
-        email = request.POST["email"]
-        password = request.POST["password"]
-        # TODO: buscar en la base de datos el email y el password
-        if email != "juan@gmail.com":
+def signin(request):
+    # username: user_test password:test
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username=username, password=password)
+        if user is None:
             messages.error(request, "Email or password no exist")
         else:
-            return render(
-                request, "accounts/index.html", {"email": email, "password": password}
-            )
-    return render(request, "accounts/login.html")
+            # usuario prueba1@prueba pass prueba1
+            login(request, user)
+            return redirect("home")
+    return render(request, 'accounts/login.html')
 
 
-def signup_form(request):
-    message = None
-    if request.method == "POST":
-        contacto_form = ContactoForm(request.POST)
-        if contacto_form.is_valid():
-            message = "Create account successfully"
+def signout(request):
+    logout(request)
+    return redirect("login")
+
+
+def register(request, *args, **kwargs):
+    user = request.user
+
+    if user.is_authenticated:
+        return HttpResponse("You are already authenticated as " + str(user.email))
+
+    context = {}
+    if request.POST:
+        form = registerUser(request.POST)
+        if request.POST['password'] == request.POST['password2']:
+            if form.is_valid():
+                user = form.save()
+                user.set_password(user.password)
+                user.save()
+                # login(request, user)
+                context = {
+                    'name': request.POST['name'],
+                    'last_name': request.POST['last_name'],
+                }
+                return render(request, 'accounts/succes_user.html', context)
+                # return redirect('succes', context)
+            else:
+                context['registration_form'] = form
         else:
-            message = "Error"
+            return render(request, 'accounts/signup.html', {
+                    'error': 'Password do not match',
+                    'form' : form
+                })
     else:
-        contacto_form = ContactoForm()
+        form = registerUser()
+        context['registration_form'] = form
+    return render(request, 'accounts/signup.html', context)
+    # return render(request, 'accounts/create_user.html', context)
 
-    return render(
-        request,
-        "accounts/signup.html",
-        {
-            "title": "Sing up - beVegan",
-            "contacto_form": contacto_form,
-            "message": message,
-        },
-    )
+
+def succes_register(request):
+    return render(request, 'accounts/succes_user.html')
+    # return render(request, 'accounts/succes_user.html')
