@@ -1,53 +1,72 @@
-<!doctype html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="https://kit.fontawesome.com/3682b977b2.js" crossorigin="anonymous"></script>
-    {% load static %}
-    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-    <title>Document</title>
-</head>
-<body>
-<div class="container">
-<h1> ALL PRODUCTS </h1>
-    <table class="table">
-    <thead>
-        <tr>
-            <th>Id</th>
-            <th>Name</th>
-            <th>Description</th>
-            <th>Category</th>
-            <th>Brand</th>
-            <th>Date Creation</th>
-            <th>Image</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for request in requests %}
-            {% if request.aggregate == False %}
+{% extends "base.html" %}
+{% block contenido %}
+<div class='main_container'>
+    <h1> ALL REQUEST </h1>
+     <table class="table">
+        <thead>
             <tr>
-                <td>{{request.id}}</td>
-                <td>{{request.name}}</td>
-                <td>{{request.description}}</td>
-                <td>{{request.category}}</td>
-                <td>{{request.brand}}</td>
-                <td><img src="{{request.image.url}}" alt="{{request.name}}" width="20%"></td>
-                <td>{{ request.date_creation }}</td>
-                <td>
-                     <a href="{% url 'add_product_by_request' id_request=request.id %}" title="Add as product" class="btn btn-success"><i class="fa-sharp fa-solid fa-plus"></i></a>
-                </td>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Category</th>
+                <th>Brand</th>
+                <th>Date Creation</th>
+                <th>Image</th>
+                <th>Actions</th>
             </tr>
-            {% endif %}
+        </thead>
+        <tbody>
+            {% for request in requests %}
+                {% if request.aggregate == False %}
+                <tr>
+                    <td>{{request.id}}</td>
+                    <td>{{request.name}}</td>
+                    <td>{{request.description}}</td>
+                    <td>{{request.category}}</td>
+                    <td>{{request.brand}}</td>
+                    <td><img src="{{request.image.url}}" alt="{{request.name}}" width="20%"></td>
+                    <td>{{ request.date_creation }}</td>
+                    <td>
+                         <a href="{% url 'add_product_by_request' id_request=request.id %}" title="Add as product" class="btn btn-success"><i class="fa-sharp fa-solid fa-plus"></i></a>
+                    </td>
+                </tr>
+                {% endif %}
+            {% endfor %}
+        </tbody>
+     </table>
+    {% if requests.has_other_pages %}
+      <ul class="pagination">
+        {% if requests.has_previous %}
+          <li class="page-item">
+              <a href="?page={{ requests.previous_page_number }}" class="page-link">Previous</a>
+          </li>
+        {% else %}
+          <li class="page-item disabled">
+              <a class="page-link">Previous</a>
+          </li>
+        {% endif %}
+        {% for i in requests.paginator.page_range %}
+          {% if requests.number == i %}
+            <li class="active page-item">
+                <a class="page-link">{{ i }} <span class="sr-only">(current)</span></a>
+            </li>
+          {% else %}
+            <li class="page-item">
+                <a href="?page={{ i }}" class="page-link">{{ i }}</a>
+            </li>
+          {% endif %}
         {% endfor %}
-
-    </tbody>
-</table>
+        {% if requests.has_next %}
+          <li class="page-item">
+              <a href="?page={{ requests.next_page_number }}" class="page-link">Next</a>
+          </li>
+        {% else %}
+          <li class="page-item disabled">
+              <a class="page-link">Next</a>
+          </li>
+        {% endif %}
+      </ul>
+    {% endif %}
 </div>
+{% endblock %}
 
-<script src="{% static 'js/bootstrap.js' %}"></script>
-</body>
-</html>

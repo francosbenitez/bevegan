@@ -10,6 +10,7 @@ from django.core import serializers
 from django.db.models import Q
 
 from apps.products.forms import RequestForm, ProductForm
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 # Create your views here.
@@ -27,19 +28,33 @@ PRODUCTS
 """
 
 
-def all_products(request):
-    # if request.method == "GET":
-    #     # data = read_json()
-    #     # Cambiar el data por la llamada a la base de datos
-    #     data = Product.objects.all().values()
-    #
-    #     return JsonResponse({"result": list(data)})
-    # else:
-    #     return HttpResponse('All products')
+# def all_products(request):
+# if request.method == "GET":
+#     # data = read_json()
+#     # Cambiar el data por la llamada a la base de datos
+#     data = Product.objects.all().values()
+#
+#     return JsonResponse({"result": list(data)})
+# else:
+#     return HttpResponse('All products')
 
-    data = Product.objects.all().order_by("id")
-    # result.append(data)
-    return render(request, "products/all.html", {"products": data})
+#    data = Product.objects.all().order_by("id")
+# result.append(data)
+#    return render(request, "products/all_products.html", {"products": data})
+
+def all_products(request):
+    products = Product.objects.all().order_by("id")
+    page = request.GET.get('page', 1)
+
+    paginator = Paginator(products, 5)
+    try:
+        data = paginator.page(page)
+    except PageNotAnInteger:
+        data = paginator.page(1)
+    except EmptyPage:
+        data = paginator.page(paginator.num_pages)
+
+    return render(request, "products/all_products.html", {"products": data})
 
 
 def product_by_name(request, name):
@@ -51,8 +66,18 @@ def product_by_name(request, name):
     # data = Product.objects.filter(name=name).values()
     # result.append(data)
     # return JsonResponse({"result": list(data)})
-    data = Product.objects.filter(name=name)
-    return render(request, "products/all.html", {"products": data})
+    products = Product.objects.filter(name=name)
+    page = request.GET.get('page', 1)
+
+    paginator = Paginator(products, 5)
+    try:
+        data = paginator.page(page)
+    except PageNotAnInteger:
+        data = paginator.page(1)
+    except EmptyPage:
+        data = paginator.page(paginator.num_pages)
+
+    return render(request, "products/all_products.html", {"products": data})
 
 
 def product_by_category(request, category):
@@ -65,8 +90,18 @@ def product_by_category(request, category):
 
     # result = Product.objects.filter(category__name=category).values()
     # return JsonResponse({"result": list(result)})
-    result = Product.objects.filter(category__name=category)
-    return render(request, "products/all.html", {"products": result})
+    products = Product.objects.filter(category__name=category)
+    page = request.GET.get('page', 1)
+
+    paginator = Paginator(products, 5)
+    try:
+        data = paginator.page(page)
+    except PageNotAnInteger:
+        data = paginator.page(1)
+    except EmptyPage:
+        data = paginator.page(paginator.num_pages)
+
+    return render(request, "products/all_products.html", {"products": data})
 
 
 def product_by_brand(request, brand):
@@ -78,8 +113,18 @@ def product_by_brand(request, brand):
     # return JsonResponse({"result": result})
     # result = Product.objects.filter(brand__name=brand).values()
     # return JsonResponse({"result": list(result)})
-    result = Product.objects.filter(brand__name=brand)
-    return render(request, "products/all.html", {"products": result})
+    products = Product.objects.filter(brand__name=brand)
+    page = request.GET.get('page', 1)
+
+    paginator = Paginator(products, 5)
+    try:
+        data = paginator.page(page)
+    except PageNotAnInteger:
+        data = paginator.page(1)
+    except EmptyPage:
+        data = paginator.page(paginator.num_pages)
+
+    return render(request, "products/all_products.html", {"products": data})
 
 
 def product_by_id(request, id_product):
@@ -91,8 +136,18 @@ def product_by_id(request, id_product):
     # return JsonResponse({"result": result})
     # result = Product.objects.filter(pk=id_product).values()
     # return JsonResponse({"result": list(result)})
-    result = Product.objects.filter(pk=id_product)
-    return render(request, "products/all.html", {"products": result})
+    products = Product.objects.filter(pk=id_product)
+    page = request.GET.get('page', 1)
+
+    paginator = Paginator(products, 5)
+    try:
+        data = paginator.page(page)
+    except PageNotAnInteger:
+        data = paginator.page(1)
+    except EmptyPage:
+        data = paginator.page(paginator.num_pages)
+
+    return render(request, "products/all_products.html", {"products": data})
 
 
 def form_product(request):
@@ -138,7 +193,7 @@ def form_request(request):
             # nombre = formulario.cleaned_data["nombre"]
             # nueva_categoria = Categoria(nombre=nombre)
             # nueva_categoria.save()
-            return redirect("all_request")
+            return redirect("all_products")
     else:
         formulario = RequestForm()
     return render(
@@ -147,8 +202,18 @@ def form_request(request):
 
 
 def all_request(request):
-    data = Request.objects.all()
+    requests = Request.objects.all()
     # result.append(data)
+    page = request.GET.get('page', 1)
+
+    paginator = Paginator(requests, 5)
+    try:
+        data = paginator.page(page)
+    except PageNotAnInteger:
+        data = paginator.page(1)
+    except EmptyPage:
+        data = paginator.page(paginator.num_pages)
+
     return render(request, "products/requests/all_request.html", {"requests": data})
 
 
@@ -157,11 +222,21 @@ def search(request):
         query = request.GET.get("search", "")
 
         if query:
-            data = Product.objects.filter(
+            products = Product.objects.filter(
                 Q(name__icontains=query) | Q(description__icontains=query)
             )
-            return render(request, "products/all.html", {"products": data})
+            page = request.GET.get('page', 1)
+            paginator = Paginator(products, 5)
+            try:
+                data = paginator.page(page)
+            except PageNotAnInteger:
+                data = paginator.page(1)
+            except EmptyPage:
+                data = paginator.page(paginator.num_pages)
+
+            return render(request, "products/all_products.html", {"products": data})
+
         else:
-            return render(request, "products/all.html", {"products": data})
+            return redirect("all_products")
     else:
         print("An error just ocurred!")

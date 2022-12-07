@@ -7,7 +7,7 @@ from django.views.generic import CreateView
 from .forms import registerUser
 from apps.accounts.models import Account, UserManager
 from django.urls import reverse_lazy
-
+from apps.products import urls
 # Create your view-s here.
 
 
