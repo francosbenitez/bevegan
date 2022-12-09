@@ -1,9 +1,24 @@
-{% extends "./header.html" %}
+{#{% extends "./header.html" %}#}
+{#{% block contenido %}#}
+{#<div class='main_container'>#}
+{#    {% if username %}#}
+{#        <h1>Welcome ! </h1> #}
+{#        <p>{{ user.name }} {{ user.last_name }}</p>#}
+{#    {% else %}#}
+{#        <p>To keep connected with us please <a href="login">login</a> with your personal info</p>#}
+{#    {% endif %}#}
+{#</div>#}
+{##}
+{#{% endblock %}#}
+
+{% extends "./base.html" %}
 {% block contenido %}
 <div class='main_container'>
     {% if username %}
-        <h1>Welcome ! </h1> 
+        <h1>Welcome ! </h1>
         <p>{{ user.name }} {{ user.last_name }}</p>
+        <a href="{% url 'all_products' %}" class="btn btn-success mb-2"> View all products available </a>
+        <a href="{% url 'add_request' %}" class="btn btn-success mb-2"> Add request for product </a>
     {% else %}
         <p>To keep connected with us please <a href="login">login</a> with your personal info</p>
     {% endif %}
