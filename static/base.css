@@ -16,7 +16,6 @@ main {
     background-color: #0eb03f;
     opacity: .8;
     top: 0;
-    position: fixed;
     z-index: 100000;
 }
 .nav_list {
@@ -27,6 +26,10 @@ main {
 }
 .nav_item {
     list-style: none;
+}
+.nav_item a {
+    text-decoration: none;
+    color: #000;
 }
 .img_container {
     display: flex;
@@ -40,7 +43,6 @@ main {
 }
 .main_container {
     display: flex;
-    height: 100vh;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -63,7 +65,6 @@ main {
 .footer {
     display: flex;
     flex-direction: column;
-    position: absolute;
     padding: 1%;
     width: 100%;
     justify-content: center;
@@ -74,4 +75,38 @@ main {
 }
 .footer span {
     margin-top: 10px;
+}
+
+
+/* pagination */
+
+.pagination > li > a
+{
+    background-color: white;
+    color: #0eb03f;
+}
+
+.pagination > li > a:focus,
+.pagination > li > a:hover,
+.pagination > li > span:focus,
+.pagination > li > span:hover
+{
+    color: #000000;
+    background-color: #eee;
+    border-color: #ddd;
+}
+
+.pagination > .active > a
+{
+    color: white;
+    background-color: #0eb03f !Important;
+    border: solid 1px #0eb03f !Important;
+}
+
+.pagination > .active > a:hover
+{
+    cursor: pointer;
+    color: white;
+    background-color: #0e8833 !Important;
+    border: solid 1px #0e8833;
 }

@@ -2,7 +2,6 @@
 {% block contenido %}
 
     <div class='main_container'>
-
         <h1>ALL PRODUCTS</h1>
         <form action="{% url 'search' %}" class="form-inline" method="get">
         <div class="form-group mx-sm-3 mb-2">
@@ -12,7 +11,7 @@
             type=""
             class="form-control"
             id=""
-            placeholder="Keyword"
+            placeholder="Search product"
           />
         </div>
         <button type="submit" class="btn btn-success mb-2">
@@ -24,7 +23,8 @@
             </a>
         {% endif %}
       </form>
-        <table class="table">
+      <div class="table-responsive  ">
+        <table class="table table-hover">
             <thead>
               <tr>
                 <th>Id</th>
@@ -43,25 +43,26 @@
                 <td>{{product.description}}</td>
                 <td>{{product.category}}</td>
                 <td>{{product.brand}}</td>
-                <th>
+                <td>
                   {% if product.image.url != null %}
                   <img
                     src="{{product.image.url}}"
                     alt="{{product.name}}"
-                    width="20%"
+                    width="20px"
                   />
                   {% else %}
                   <img
                     src="/media/images/product/generic-product.png"
                     alt="image-generic"
-                    width="5%"
+                    width="20px"
                   />
                   {% endif %}
-                </th>
+                </td>
               </tr>
               {% endfor %}
             </tbody>
         </table>
+      </div>
     {% if products.has_other_pages %}
       <ul class="pagination">
         {% if products.has_previous %}

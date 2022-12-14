@@ -23,7 +23,7 @@ def index(request):
 
 
 def signin(request):
-    # username: user_test password:test
+    # usuario test pass test
     if request.method == 'POST':
         username = request.POST['username']
         password = request.POST['password']
@@ -31,7 +31,6 @@ def signin(request):
         if user is None:
             messages.error(request, "Email or password no exist")
         else:
-            # usuario prueba1@prueba pass prueba1
             login(request, user)
             return redirect("home")
     return render(request, 'accounts/login.html')
