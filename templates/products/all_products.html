@@ -3,8 +3,8 @@
 
     <div class='main_container'>
         <h1>ALL PRODUCTS</h1>
-        <form action="{% url 'search' %}" class="form-inline" method="get">
-        <div class="form-group mx-sm-3 mb-2">
+        <form action="{% url 'search' %}" class="form-inline flex-row" method="get">
+        <div class="form-group mx-sm-3 mb-2 ">
           <label for="" class="sr-only">search</label>
           <input
             name="search"
@@ -17,11 +17,6 @@
         <button type="submit" class="btn btn-success mb-2">
           Search
         </button>
-        {% if user %}
-            <a href="{% url 'add_request' %}" class="btn btn-info mb-2">
-                Add request product
-            </a>
-        {% endif %}
       </form>
       <div class="table-responsive  ">
         <table class="table table-hover">
