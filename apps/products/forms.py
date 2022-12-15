@@ -21,7 +21,7 @@ class RequestForm(forms.ModelForm):
         model = Request
         # fields = '__all__'
         # fields = ['nombre']
-        exclude = ("date_creation",)
+        exclude = ("date_creation","aggregate")
         widgets = {
             "name": forms.TextInput(
                 attrs={"placeholder": "Ingrese nombre", "class": "form-control"}
