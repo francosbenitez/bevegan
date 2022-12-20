@@ -13,15 +13,24 @@
 
 {% extends "./base.html" %}
 {% block contenido %}
-<div class='main_container'>
-    {% if username %}
+<div class='main_container home_container'>
+
+    <div class="title_container">
+        <h1 class="home_title">beVegan</h1>
+        <h3>Cambia lo que comes, cambia el mundo.</h3>
+        <div class="buttons_container">
+            <a href="/products/all" class="button_home green">Ver catalogo</a>
+            <a href="/products/add" class="button_home white">Agregar producto</a>
+        </div>
+    </div>
+    <!-- {% if username %}
         <h1>Welcome ! </h1>
         <p>{{ user.name }} {{ user.last_name }}</p>
         <a href="{% url 'all_products' %}" class="btn btn-success mb-2"> View all products available </a>
         <a href="{% url 'add_request' %}" class="btn btn-success mb-2"> Add request for product </a>
     {% else %}
         <p>To keep connected with us please <a href="login">login</a> with your personal info</p>
-    {% endif %}
+    {% endif %} -->
 </div>
 
 {% endblock %}

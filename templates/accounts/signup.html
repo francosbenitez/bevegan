@@ -13,7 +13,6 @@
 	<div class="form-container sign-up-container">
 		<form class="register_form" method="post" action={% url 'register' %}>
 			{% csrf_token %}
-			<h1>Register</h1>
 			<div class="social-container">
                 <img class="social" src="{% static '/accounts/logovegan.png' %}">
 			</div>
@@ -44,9 +43,18 @@
 		</form>
 	</div>
 	<div class="overlay-container overlay overlay-panel">
-				<h1>Welcome Back!</h1>
+		<h2>Bienvenido a beVegan</h2>
+		<p>
+			Si ya tenes tu cuenta podes <a href="/accounts/login">loguearte</a><br>
+			o podes visitar nuestro catalogo sin necesidad de crear una cuenta
+		</p>
+		<div class="buttons_container">
+            <a href="/products/all" class="button_home green">Ver catalogo</a>
+            <a href="/accounts/login" class="button_home white">Loguearte</a>
+        </div>
+				<!-- <h1>Welcome Back!</h1>
 				<p>To keep connected with us please login with your personal info</p>
-				<button class="ghost" id="signIn"><a href="{% url 'login' %}">Sign In</a></button>
+				<button class="ghost" id="signIn"><a href="{% url 'login' %}">Sign In</a></button> -->
 	</div>
 </div>
 </body>
