@@ -12,7 +12,6 @@ from django.db.models import Q
 from apps.products.forms import RequestForm, ProductForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
 
@@ -154,34 +153,42 @@ def product_by_id(request, id_product):
 
     return render(request, "products/all_products.html", {"products": data})
 
-@login_required
+
+@login_required(login_url=settings.LOGIN_URL)
 def form_product(request):
-    if request.method == "POST":
-        # formulario = CategoriaForm(request.POST)
-        formulario = ProductForm(request.POST, request.FILES)
-        if formulario.is_valid():
-            formulario.save()
-            # nombre = formulario.cleaned_data["nombre"]
-            # nueva_categoria = Categoria(nombre=nombre)
-            # nueva_categoria.save()
-            return redirect("all_products")
+    if request.user.username == "admin":
+        if request.method == "POST":
+            # formulario = CategoriaForm(request.POST)
+            formulario = ProductForm(request.POST, request.FILES)
+            if formulario.is_valid():
+                formulario.save()
+                # nombre = formulario.cleaned_data["nombre"]
+                # nueva_categoria = Categoria(nombre=nombre)
+                # nueva_categoria.save()
+                return redirect("all_products")
+        else:
+            formulario = RequestForm()
+        return render(request, "products/add.html", {"formulario": formulario})
     else:
-        formulario = RequestForm()
-    return render(request, "products/add.html", {"formulario": formulario})
+        return redirect("home")
 
 
+@login_required(login_url=settings.LOGIN_URL)
 def add_product_by_request(request, id_request):
-    result = Request.objects.get(pk=id_request)
-    product = Product(
-        name=result.name,
-        description=result.description,
-        image=result.image,
-        category=result.category,
-        brand=result.brand,
-    )
-    result.soft_delete()
-    product.save()
-    return redirect("all_products")
+    if request.user.username == "admin":
+        result = Request.objects.get(pk=id_request)
+        product = Product(
+            name=result.name,
+            description=result.description,
+            image=result.image,
+            category=result.category,
+            brand=result.brand,
+        )
+        result.soft_delete()
+        product.save()
+        return redirect("all_products")
+    else:
+        return redirect("home")
 
 
 """
@@ -207,20 +214,25 @@ def form_request(request):
     )
 
 
+@login_required(login_url=settings.LOGIN_URL)
 def all_request(request):
-    requests = Request.objects.all()
-    # result.append(data)
-    page = request.GET.get("page", 1)
+    #print(request.user.username)
+    if request.user.username == "admin":
+        requests = Request.objects.all()
+        # result.append(data)
+        page = request.GET.get("page", 1)
 
-    paginator = Paginator(requests, 5)
-    try:
-        data = paginator.page(page)
-    except PageNotAnInteger:
-        data = paginator.page(1)
-    except EmptyPage:
-        data = paginator.page(paginator.num_pages)
+        paginator = Paginator(requests, 5)
+        try:
+            data = paginator.page(page)
+        except PageNotAnInteger:
+            data = paginator.page(1)
+        except EmptyPage:
+            data = paginator.page(paginator.num_pages)
 
-    return render(request, "products/requests/all_request.html", {"requests": data})
+        return render(request, "products/requests/all_request.html", {"requests": data})
+    else:
+        return redirect("home")
 
 
 def search(request):
