@@ -11,7 +11,11 @@ from django.db.models import Q
 
 from apps.products.forms import RequestForm, ProductForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
+
 from django.contrib.auth.decorators import login_required
+from django.conf import settings
+
 
 # Create your views here.
 
@@ -42,9 +46,10 @@ PRODUCTS
 # result.append(data)
 #    return render(request, "products/all_products.html", {"products": data})
 
+
 def all_products(request):
     products = Product.objects.all().order_by("id")
-    page = request.GET.get('page', 1)
+    page = request.GET.get("page", 1)
 
     paginator = Paginator(products, 5)
     try:
@@ -67,7 +72,7 @@ def product_by_name(request, name):
     # result.append(data)
     # return JsonResponse({"result": list(data)})
     products = Product.objects.filter(name=name)
-    page = request.GET.get('page', 1)
+    page = request.GET.get("page", 1)
 
     paginator = Paginator(products, 5)
     try:
@@ -91,7 +96,7 @@ def product_by_category(request, category):
     # result = Product.objects.filter(category__name=category).values()
     # return JsonResponse({"result": list(result)})
     products = Product.objects.filter(category__name=category)
-    page = request.GET.get('page', 1)
+    page = request.GET.get("page", 1)
 
     paginator = Paginator(products, 5)
     try:
@@ -114,7 +119,7 @@ def product_by_brand(request, brand):
     # result = Product.objects.filter(brand__name=brand).values()
     # return JsonResponse({"result": list(result)})
     products = Product.objects.filter(brand__name=brand)
-    page = request.GET.get('page', 1)
+    page = request.GET.get("page", 1)
 
     paginator = Paginator(products, 5)
     try:
@@ -137,7 +142,7 @@ def product_by_id(request, id_product):
     # result = Product.objects.filter(pk=id_product).values()
     # return JsonResponse({"result": list(result)})
     products = Product.objects.filter(pk=id_product)
-    page = request.GET.get('page', 1)
+    page = request.GET.get("page", 1)
 
     paginator = Paginator(products, 5)
     try:
@@ -184,6 +189,7 @@ def add_product_by_request(request, id_request):
 """
 
 
+@login_required(login_url=settings.LOGIN_URL)
 def form_request(request):
     if request.method == "POST":
         # formulario = CategoriaForm(request.POST)
@@ -204,7 +210,7 @@ def form_request(request):
 def all_request(request):
     requests = Request.objects.all()
     # result.append(data)
-    page = request.GET.get('page', 1)
+    page = request.GET.get("page", 1)
 
     paginator = Paginator(requests, 5)
     try:
@@ -225,7 +231,7 @@ def search(request):
             products = Product.objects.filter(
                 Q(name__icontains=query) | Q(description__icontains=query)
             )
-            page = request.GET.get('page', 1)
+            page = request.GET.get("page", 1)
             paginator = Paginator(products, 5)
             try:
                 data = paginator.page(page)
