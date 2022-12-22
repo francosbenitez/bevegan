@@ -12,8 +12,10 @@ from django.db.models import Q
 from apps.products.forms import RequestForm, ProductForm
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
+
 from django.contrib.auth.decorators import login_required
 from django.conf import settings
+
 
 # Create your views here.
 
@@ -152,7 +154,7 @@ def product_by_id(request, id_product):
 
     return render(request, "products/all_products.html", {"products": data})
 
-
+@login_required
 def form_product(request):
     if request.method == "POST":
         # formulario = CategoriaForm(request.POST)

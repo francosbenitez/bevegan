@@ -13,11 +13,10 @@
 	<div class="form-container sign-in-container">
 		<form novalidate method="POST" action="{% url 'login' %}">
             {% csrf_token %}
-			<h1>Sign in</h1>
 			<div class="social-container">
                 <img class="social" src="{% static '/accounts/logovegan.png' %}">
 			</div>
-			<span>or use your account</span>
+			<span>use your account</span>
             {% for message in messages %}
                 <span style="color:red;">
                     {{ message }}
@@ -38,9 +37,17 @@
 	<div class="overlay-container">
 		<div class="overlay">
 			<div class="overlay-panel overlay-right">
-				<h1>Hello, Friend!</h1>
+                <h2>¿No tenes cuenta en beVegan?</h2>
+                <h4>Podes registrarte <a href="/accounts/register">aca</a><br>
+                    o visitar nuestro catalogo de forma completamente libre!
+                </h4>
+                <div class="buttons_container">
+                    <a href="/accounts/" class="button_home">ir a Home</a>
+                    <a href="/accounts/register" class="button_home white">Registarse</a>
+                </div>
+				<!-- <h1>Hello, Friend!</h1>
 				<p>Enter your personal details and start journey with us</p>
-				<button class="ghost" id="signUp"><a  href="{% url 'register' %}">Register</a></button>
+				<button class="ghost" id="signUp"><a  href="{% url 'register' %}">Register</a></button> -->
 			</div>
 		</div>
 	</div>
